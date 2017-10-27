@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Quantitative social science with R</title>
+    <meta charset="utf-8">
+    <meta name="author" content="Edu Gonzalo Almorox" />
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Quantitative social science with R
+## Visualisation and analysis of data
+### Edu Gonzalo Almorox
+### 18/10/2017
+
+---
+
+
+exclude: true
+
+
+
+---
+
+# Outline
+
+.pull-left[1. Visualise data
+
+      - quantitative data
+      
+      - qualitative data
+      
+2. Analyse data
+
+      - tidy
+      
+      - augment
+]
+
+.pull-right[
+
+&lt;figure&gt;&lt;img src="https://s3.amazonaws.com/lowres.cartoonstock.com/computers-data-big_data-data_mining-data_mines-data_lakes-jcen1586_low.jpg"&gt;&lt;figcaption&gt; &lt;a href=""&gt;&lt;/a&gt;&lt;/figcaption&gt;&lt;/figure&gt;
+
+]
+---
+class: center, middle
+
+# ggplot2
+## Quantitative data
+---
+## ggplot2  
+
+- [`ggplot2`](http://ggplot2.org) is one of the most developed packages in R
+
+- It is based on the [grammar of graphics](https://www.r-bloggers.com/a-simple-introduction-to-the-graphing-philosophy-of-ggplot2/)
+  
+| Element     | What is
+|-------------|-------------------------
+| Data		    |  The raw data that you want to plot
+| Geometries	|  The geometric shapes that will represent the data.
+| Aethetics	  |  Aesthetics of the geometric and statistical objects, such as color, size, shape and position.
+| Scales	    |  Maps between the data and the aesthetic dimensions, such as data range to plot width or factor values to colors  
+
+
+- It is important to have a clear idea of how the data are structured    
+---
+
+## Hello world with ggplot2
+
+* Compare two variables: e.g. the carat (*weight*) and price of the diamonds
+
+.pull-left[
+
+![](s3_files/figure-html/unnamed-chunk-2-1.png)&lt;!-- --&gt;
+]
+
+.pull-right[
+
+```r
+library(ggplot2)
+
+# data from the package
+data(diamonds)
+
+# plot
+ggplot(diamonds,
+       aes(x=carat, y=price))
+```
+]
+
+---
+
+## Hello world with ggplot2
+
+* Add more layers to define the type of plot
+
+.pull-left[
+
+![](s3_files/figure-html/unnamed-chunk-4-1.png)&lt;!-- --&gt;
+]
+
+
+.pull-right[
+
+```r
+library(ggplot2)
+
+# data from the package
+data(diamonds)
+
+# plot
+ggplot(diamonds,
+       aes(x=carat, y=price)) 
+      + geom_point()
+```
+]
+
+---
+
+## Hello world with ggplot2
+
+* Can we improve this plot?...
+
+
+```r
+library(tidyverse)
+glimpse(diamonds)
+```
+
+```
+## Observations: 53,940
+## Variables: 10
+## $ carat   &lt;dbl&gt; 0.23, 0.21, 0.23, 0.29, 0.31, 0.24, 0.24, 0.26, 0.22, ...
+## $ cut     &lt;ord&gt; Ideal, Premium, Good, Premium, Good, Very Good, Very G...
+## $ color   &lt;ord&gt; E, E, E, I, J, J, I, H, E, H, J, J, F, J, E, E, I, J, ...
+## $ clarity &lt;ord&gt; SI2, SI1, VS1, VS2, SI2, VVS2, VVS1, SI1, VS2, VS1, SI...
+## $ depth   &lt;dbl&gt; 61.5, 59.8, 56.9, 62.4, 63.3, 62.8, 62.3, 61.9, 65.1, ...
+## $ table   &lt;dbl&gt; 55, 61, 65, 58, 58, 57, 57, 55, 61, 61, 55, 56, 61, 54...
+## $ price   &lt;int&gt; 326, 326, 327, 334, 335, 336, 336, 337, 337, 338, 339,...
+## $ x       &lt;dbl&gt; 3.95, 3.89, 4.05, 4.20, 4.34, 3.94, 3.95, 4.07, 3.87, ...
+## $ y       &lt;dbl&gt; 3.98, 3.84, 4.07, 4.23, 4.35, 3.96, 3.98, 4.11, 3.78, ...
+## $ z       &lt;dbl&gt; 2.43, 2.31, 2.31, 2.63, 2.75, 2.48, 2.47, 2.53, 2.49, ...
+```
+
+---
+
+## Hello world with ggplot2
+
+* Can we improve this plot?...
+.pull-left[
+
+![](s3_files/figure-html/unnamed-chunk-7-1.png)&lt;!-- --&gt;
+]
+
+
+.pull-right[
+
+```r
+library(ggplot2)
+
+# data from the package
+data(diamonds)
+
+# plot
+ggplot(diamonds,
+       aes(x=carat,
+           y=price,
+           color = cut)) +
+       geom_point()
+```
+]
+---
+
+## Hello world with ggplot2
+
+* We can add more layers
+
+.pull-left[
+
+![](s3_files/figure-html/unnamed-chunk-9-1.png)&lt;!-- --&gt;
+]
+
+
+.pull-right[
+
+```r
+library(ggplot2)
+
+# data from the package
+data(diamonds)
+
+# plot
+ggplot(diamonds,
+       aes(x=carat, y=price, color = cut)) +
+       geom_point() +
+       geom_smooth()
+```
+]
+
+
+---
+## Hello world with ggplot2
+
+* ... and adapt them
+
+.pull-left[
+
+![](s3_files/figure-html/unnamed-chunk-11-1.png)&lt;!-- --&gt;
+]
+
+
+.pull-right[
+
+```r
+library(ggplot2)
+
+# plot
+ggplot(diamonds, 
+       aes(x=carat,
+           y=price)) +
+  geom_point(aes(color=cut)) + 
+  geom_smooth() 
+```
+]
+
+---
+
+## Refinements
+
+* Transparency and labels
+
+.pull-left[
+
+![](s3_files/figure-html/unnamed-chunk-13-1.png)&lt;!-- --&gt;
+]
+
+
+.pull-right[
+
+```r
+library(ggplot2)
+
+# plot
+ggplot(diamonds, aes(x=carat,
+                     y=price)) + 
+  geom_point(aes(color=cut),
+             alpha = 0.5) +
+  labs(title="My beautiful plot",
+       x="The Carat",
+       y="The Price",
+       caption = "www.mydatasource.com") +
+  geom_smooth() 
+```
+]
+
+---
+class: center, middle
+
+# ggplot2
+## Qualitative data
+
+
+---
+## Barplots 
+
+* How many observations of each cut?
+
+
+.pull-left[
+
+![](s3_files/figure-html/unnamed-chunk-15-1.png)&lt;!-- --&gt;
+]
+
+.pull-right[
+
+
+```r
+library(ggplot2)
+
+g &lt;- ggplot(diamonds, aes(cut))
+
+g + geom_bar()
+```
+]
+
+* **Challenge**: try to run  `geom_histogram()`. What happens?
+
+
+---
+## Barplots 
+
+* How many observations of each cut and each colour?
+
+
+.pull-left[
+
+![](s3_files/figure-html/unnamed-chunk-17-1.png)&lt;!-- --&gt;
+]
+
+.pull-right[
+
+
+```r
+library(ggplot2)
+
+g &lt;- ggplot(diamonds, aes(cut))
+
+g + geom_bar(aes(fill = color))
+```
+]
+
+---
+
+## Barplots 
+
+* Can we represent this information in a different way? 
+
+.pull-left[
+
+![](s3_files/figure-html/unnamed-chunk-19-1.png)&lt;!-- --&gt;
+]
+
+.pull-right[
+
+
+```r
+library(ggplot2)
+
+g &lt;- ggplot(diamonds, aes(cut))
+
+g + geom_bar(aes(fill = color)) +
+coord_flip() +
+   theme(legend.position = "top")
+```
+]
+
+
+---
+## Barplots 
+
+* Can we consider more relationships with more variables - e.g. the clarity of the diamonds?
+
+
+```r
+g &lt;- ggplot(diamonds, aes(cut))
+
+ g + geom_bar()  + 
+   coord_flip() +
+   theme(legend.position = "top") +
+   facet_grid(clarity~color)
+```
+
+---
+## Barplots 
+
+![](s3_files/figure-html/unnamed-chunk-22-1.png)&lt;!-- --&gt;
+
+---
+## Case study
+
+.pull-left[How can we represent the figure below using `edudata.dta`?
+
+ - format of the data
+ 
+ - current structure of the data
+ 
+ - desired structure of the data
+ 
+ - format of the variables
+ ] 
+.pull-right[
+![](s3_files/figure-html/unnamed-chunk-23-1.png)&lt;!-- --&gt;
+]
+
+
+---
+## Case study
+
+* Format and structure of the data 
+
+
+```r
+ library(dplyr)
+ library(ggplot2)
+ library(janitor)
+ library(rio)
+
+# format dta
+mobi = import("data/edudata.dta")
+
+glimpse(mobi)
+```
+
+```
+## Observations: 10,000
+## Variables: 4
+## $ id     &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, ...
+## $ class1 &lt;dbl&gt; 1, 2, 3, 5, 4, 2, 4, 1, 5, 4, 3, 4, 4, 2, 5, 2, 2, 1, 4...
+## $ class2 &lt;dbl&gt; 1, 3, 4, 1, 2, 5, 3, 2, 5, 1, 2, 4, 4, 5, 4, 4, 2, 1, 3...
+## $ class3 &lt;dbl&gt; 1, 5, 5, 2, 2, 5, 5, 5, 1, 4, 1, 4, 4, 5, 5, 2, 1, 2, 3...
+```
+
+
+---
+## Case study
+
+* Prepare the data to get a better structure for visualisation
+
+
+```r
+# get frequencies each class
+ df = mobi %&gt;% 
+   mutate_at(vars(class1, class2, class3), funs(as.factor))
+
+ class1 =  df  %&gt;% tabyl(class1) %&gt;% mutate(class = 1) %&gt;% rename(category = class1)
+ class2 =  df  %&gt;% tabyl(class2) %&gt;% mutate(class = 2) %&gt;% rename(category = class2)
+ class3 =  df %&gt;% tabyl(class3) %&gt;% mutate(class = 3) %&gt;% rename(category = class3)
+ 
+ # link datasets by row
+ df_linked = rbind(class1, class2, class3) %&gt;% mutate(class = as.factor(class))
+ 
+ glimpse(df_linked)
+```
+
+```
+## Observations: 15
+## Variables: 4
+## $ category &lt;fctr&gt; 1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 1, 2, 3, 4, 5
+## $ n        &lt;dbl&gt; 1971, 2084, 1937, 1976, 2032, 1934, 2035, 2065, 2022,...
+## $ percent  &lt;dbl&gt; 0.1971, 0.2084, 0.1937, 0.1976, 0.2032, 0.1934, 0.203...
+## $ class    &lt;fctr&gt; 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3
+```
+
+
+---
+## Case study
+
+* Visualise data 
+
+.pull-left[
+
+```r
+ # plot
+ a = ggplot(df_linked,
+    aes(category,
+        percent,
+        fill = class))+ 
+  geom_bar(stat="identity")
+```
+]
+
+.pull-right[
+![](s3_files/figure-html/unnamed-chunk-27-1.png)&lt;!-- --&gt;
+]
+
+---
+class: center, middle
+# Analyse data
+## broom
+
+---
+## broom
+
+* [broom](https://cran.r-project.org/web/packages/broom/broom.pdf) creates tidy data frames derived from the results of your models
+
+* Focus on the output of the model
+
+* Great compatibility with dplyr functions
+
+| Function  | Element
+|-----------|-----------------------
+| tidy()    |  component-level statistics
+| augment() |  observation-level statistics 
+| glance()  |  model-level statistics
+
+---
+## broom
+
+```
+## 
+## Call:
+## lm(formula = mpg ~ wt + qsec, data = mtcars)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -4.3962 -2.1431 -0.2129  1.4915  5.7486 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)  19.7462     5.2521   3.760 0.000765 ***
+## wt           -5.0480     0.4840 -10.430 2.52e-11 ***
+## qsec          0.9292     0.2650   3.506 0.001500 ** 
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 2.596 on 29 degrees of freedom
+## Multiple R-squared:  0.8264,	Adjusted R-squared:  0.8144 
+## F-statistic: 69.03 on 2 and 29 DF,  p-value: 9.395e-12
+```
+
+
+---
+## broom
+
+* Get tidy results of your model
+
+```r
+library(broom)
+
+data(mtcars)
+lmfit &lt;- lm(mpg ~ wt+ qsec, mtcars)
+lmfit_tidy = tidy(lmfit, conf.int = TRUE)
+
+head(lmfit_tidy, 4)
+```
+
+```
+##          term  estimate std.error  statistic      p.value   conf.low
+## 1 (Intercept) 19.746223 5.2520617   3.759709 7.650466e-04  9.0045503
+## 2          wt -5.047982 0.4839974 -10.429771 2.518948e-11 -6.0378678
+## 3        qsec  0.929198 0.2650173   3.506179 1.499883e-03  0.3871768
+##   conf.high
+## 1 30.487895
+## 2 -4.058096
+## 3  1.471219
+```
+
+---
+## broom 
+
+* Visualise results
+
+.pull-left[
+
+![](s3_files/figure-html/unnamed-chunk-30-1.png)&lt;!-- --&gt;
+]
+
+.pull-right[
+
+```r
+g = ggplot(lmfit_tidy, aes(estimate, term, color = term)) +
+  geom_point() +
+  geom_errorbarh(aes(xmin = conf.low, xmax = conf.high)) 
+```
+]
+
+---
+## broom
+
+* Get information referred to the observations
+
+```r
+library(broom)
+
+lmfit_augmented = augment(lmfit)
+
+head(lmfit_augmented, 4)
+```
+
+```
+##        .rownames  mpg    wt  qsec  .fitted   .se.fit      .resid
+## 1      Mazda RX4 21.0 2.620 16.46 21.81511 0.6832424 -0.81510855
+## 2  Mazda RX4 Wag 21.0 2.875 17.02 21.04822 0.5468271 -0.04822401
+## 3     Datsun 710 22.8 2.320 18.61 25.32728 0.6397681 -2.52727880
+## 4 Hornet 4 Drive 21.4 3.215 19.44 21.58057 0.6231436 -0.18056924
+##         .hat   .sigma      .cooksd  .std.resid
+## 1 0.06925986 2.637300 2.627038e-03 -0.32543724
+## 2 0.04436414 2.642112 5.587076e-06 -0.01900129
+## 3 0.06072636 2.595763 2.174253e-02 -1.00443793
+## 4 0.05761138 2.641895 1.046036e-04 -0.07164647
+```
+
+
+---
+
+class: center, middle
+
+# Thanks!
+
+[@EdudinGonzalo](https://twitter.com/EdudinGonzalo)
+
+`e.gonzalo-almorox@newcastle.ac.uk`
+    </textarea>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {window.dispatchEvent(new Event('resize'));});
+(function() {var d = document, s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler"); if (!r) return; s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }"; d.head.appendChild(s);})();</script>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+  }
+});
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
