@@ -1,0 +1,635 @@
+---
+title: "Quantitative social science with R"
+subtitle: "Visualisation and analysis of data"
+author: "Edu Gonzalo Almorox"
+date: "18/10/2017"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+exclude: true
+
+```{r, message=FALSE, warning=FALSE, include=FALSE}
+library(tidyverse)
+```
+
+---
+
+# Outline
+
+.pull-left[1. Visualise data
+
+      - quantitative data
+      
+      - qualitative data
+      
+2. Analyse data
+
+      - tidy
+      
+      - augment
+]
+
+.pull-right[
+
+<figure><img src="https://s3.amazonaws.com/lowres.cartoonstock.com/computers-data-big_data-data_mining-data_mines-data_lakes-jcen1586_low.jpg"><figcaption> <a href=""></a></figcaption></figure>
+
+]
+---
+class: center, middle
+
+# ggplot2
+## Quantitative data
+---
+## ggplot2  
+
+- [`ggplot2`](http://ggplot2.org) is one of the most developed packages in R
+
+- It is based on the [grammar of graphics](https://www.r-bloggers.com/a-simple-introduction-to-the-graphing-philosophy-of-ggplot2/)
+  
+| Element     | What is
+|-------------|-------------------------
+| Data		    |  The raw data that you want to plot
+| Geometries	|  The geometric shapes that will represent the data.
+| Aethetics	  |  Aesthetics of the geometric and statistical objects, such as color, size, shape and position.
+| Scales	    |  Maps between the data and the aesthetic dimensions, such as data range to plot width or factor values to colors  
+
+
+- It is important to have a clear idea of how the data are structured    
+---
+
+## Hello world with ggplot2
+
+* Compare two variables: e.g. the carat (*weight*) and price of the diamonds
+
+.pull-left[
+
+```{r, echo = FALSE, eval = TRUE, inlcude = TRUE, warning = FALSE, message = FALSE}
+
+library(ggplot2)
+data(diamonds) # data from the package
+ggplot(diamonds, aes(x=carat, y=price))
+```
+]
+
+.pull-right[
+```{r, echo = TRUE, eval = FALSE, inlcude = FALSE, warning = FALSE, message = FALSE}
+
+library(ggplot2)
+
+# data from the package
+data(diamonds)
+
+# plot
+ggplot(diamonds,
+       aes(x=carat, y=price))
+```
+]
+
+---
+
+## Hello world with ggplot2
+
+* Add more layers to define the type of plot
+
+.pull-left[
+
+```{r, echo = FALSE, eval = TRUE, inlcude = TRUE, warning = FALSE, message = FALSE}
+
+library(ggplot2)
+data(diamonds) # data from the package
+ggplot(diamonds, aes(x=carat, y=price)) + geom_point()
+```
+]
+
+
+.pull-right[
+```{r, echo = TRUE, eval = FALSE, inlcude = FALSE, warning = FALSE, message = FALSE}
+
+library(ggplot2)
+
+# data from the package
+data(diamonds)
+
+# plot
+ggplot(diamonds,
+       aes(x=carat, y=price)) 
+      + geom_point()
+```
+]
+
+---
+
+## Hello world with ggplot2
+
+* Can we improve this plot?...
+
+```{r, echo = TRUE, eval = TRUE, inlcude = TRUE, warning = FALSE, message = FALSE}
+library(tidyverse)
+glimpse(diamonds)
+
+
+```
+
+---
+
+## Hello world with ggplot2
+
+* Can we improve this plot?...
+.pull-left[
+
+```{r, echo = FALSE, eval = TRUE, inlcude = TRUE, warning = FALSE, message = FALSE}
+
+library(ggplot2)
+data(diamonds) # data from the package
+ggplot(diamonds, aes(x=carat, y=price, color = cut)) + geom_point()
+```
+]
+
+
+.pull-right[
+```{r, echo = TRUE, eval = FALSE, inlcude = FALSE, warning = FALSE, message = FALSE}
+
+library(ggplot2)
+
+# data from the package
+data(diamonds)
+
+# plot
+ggplot(diamonds,
+       aes(x=carat,
+           y=price,
+           color = cut)) +
+       geom_point()
+```
+]
+---
+
+## Hello world with ggplot2
+
+* We can add more layers
+
+.pull-left[
+
+```{r, echo = FALSE, eval = TRUE, inlcude = TRUE, warning = FALSE, message = FALSE}
+
+library(ggplot2)
+data(diamonds) # data from the package
+ggplot(diamonds, aes(x=carat, y=price, color = cut)) + geom_point() + geom_smooth()
+```
+]
+
+
+.pull-right[
+```{r, echo = TRUE, eval = FALSE, inlcude = FALSE, warning = FALSE, message = FALSE}
+
+library(ggplot2)
+
+# data from the package
+data(diamonds)
+
+# plot
+ggplot(diamonds,
+       aes(x=carat, y=price, color = cut)) +
+       geom_point() +
+       geom_smooth()
+```
+]
+
+
+---
+## Hello world with ggplot2
+
+* ... and adapt them
+
+.pull-left[
+
+```{r, echo = FALSE, eval = TRUE, inlcude = TRUE, warning = FALSE, message = FALSE}
+
+library(ggplot2)
+
+ggplot(diamonds, aes(x=carat, y=price)) + geom_point(aes(color=cut)) + geom_smooth() 
+```
+]
+
+
+.pull-right[
+```{r, echo = TRUE, eval = FALSE, inlcude = FALSE, warning = FALSE, message = FALSE}
+
+library(ggplot2)
+
+# plot
+ggplot(diamonds, 
+       aes(x=carat,
+           y=price)) +
+  geom_point(aes(color=cut)) + 
+  geom_smooth() 
+```
+]
+
+---
+
+## Refinements
+
+* Transparency and labels
+
+.pull-left[
+
+```{r, echo = FALSE, eval = TRUE, inlcude = TRUE, warning = FALSE, message = FALSE}
+
+library(ggplot2)
+
+ggplot(diamonds, aes(x=carat, y=price)) + 
+  geom_point(aes(color=cut), alpha = 0.5) +
+  labs(title="My beautiful plot", x="The Carat", y="The Price", caption = "www.mydatasource.com") +
+  geom_smooth() 
+```
+]
+
+
+.pull-right[
+```{r, echo = TRUE, eval = FALSE, inlcude = FALSE, warning = FALSE, message = FALSE}
+
+library(ggplot2)
+
+# plot
+ggplot(diamonds, aes(x=carat,
+                     y=price)) + 
+  geom_point(aes(color=cut),
+             alpha = 0.5) +
+  labs(title="My beautiful plot",
+       x="The Carat",
+       y="The Price",
+       caption = "www.mydatasource.com") +
+  geom_smooth() 
+```
+]
+
+---
+class: center, middle
+
+# ggplot2
+## Qualitative data
+
+
+---
+## Barplots 
+
+* How many observations of each cut?
+
+
+.pull-left[
+
+```{r, echo = FALSE, eval = TRUE, inlcude = TRUE, warning = FALSE, message = FALSE}
+
+library(ggplot2)
+
+g <- ggplot(diamonds, aes(cut))
+
+g + geom_bar()
+ 
+```
+]
+
+.pull-right[
+
+```{r, echo = TRUE, eval = FALSE, inlcude = FALSE, warning = FALSE, message = FALSE}
+library(ggplot2)
+
+g <- ggplot(diamonds, aes(cut))
+
+g + geom_bar()
+ 
+```
+]
+
+* **Challenge**: try to run  `geom_histogram()`. What happens?
+
+
+---
+## Barplots 
+
+* How many observations of each cut and each colour?
+
+
+.pull-left[
+
+```{r, echo = FALSE, eval = TRUE, inlcude = TRUE, warning = FALSE, message = FALSE}
+
+library(ggplot2)
+
+g <- ggplot(diamonds, aes(cut))
+
+g + geom_bar(aes(fill = color))
+ 
+```
+]
+
+.pull-right[
+
+```{r, echo = TRUE, eval = FALSE, inlcude = FALSE, warning = FALSE, message = FALSE}
+library(ggplot2)
+
+g <- ggplot(diamonds, aes(cut))
+
+g + geom_bar(aes(fill = color))
+ 
+```
+]
+
+---
+
+## Barplots 
+
+* Can we represent this information in a different way? 
+
+.pull-left[
+
+```{r, echo = FALSE, eval = TRUE, inlcude = TRUE, warning = FALSE, message = FALSE}
+
+library(ggplot2)
+
+g <- ggplot(diamonds, aes(cut))
+
+g + geom_bar(aes(fill = color)) +
+ coord_flip() +
+   theme(legend.position = "top")
+ 
+```
+]
+
+.pull-right[
+
+```{r, echo = TRUE, eval = FALSE, inlcude = FALSE, warning = FALSE, message = FALSE}
+library(ggplot2)
+
+g <- ggplot(diamonds, aes(cut))
+
+g + geom_bar(aes(fill = color)) +
+coord_flip() +
+   theme(legend.position = "top")
+ 
+```
+]
+
+
+---
+## Barplots 
+
+* Can we consider more relationships with more variables - e.g. the clarity of the diamonds?
+
+```{r, echo = TRUE, eval = FALSE, inlcude = FALSE, warning = FALSE, message = FALSE}
+
+g <- ggplot(diamonds, aes(cut))
+
+ g + geom_bar()  + 
+   coord_flip() +
+   theme(legend.position = "top") +
+   facet_grid(clarity~color)
+
+ 
+```
+
+---
+## Barplots 
+
+```{r, echo = FALSE, eval = TRUE, inlcude = TRUE, warning = FALSE, message = FALSE}
+
+library(ggplot2)
+
+g <- ggplot(diamonds, aes(cut))
+
+ g + geom_bar()  + 
+   coord_flip() +
+   theme(legend.position = "top") +
+   facet_grid(clarity~color)
+
+```
+
+---
+## Case study
+
+.pull-left[How can we represent the figure below using `edudata.dta`?
+
+ - format of the data
+ 
+ - current structure of the data
+ 
+ - desired structure of the data
+ 
+ - format of the variables
+ ] 
+.pull-right[
+```{r, echo = FALSE, eval = TRUE, include = TRUE, warning = FALSE, message = FALSE}
+
+ library(dplyr)
+ library(ggplot2)
+ library(janitor)
+ library(rio)
+
+
+df = import("data/edudata.dta")
+ 
+ df = df %>% 
+   mutate_at(vars(class1, class2, class3), funs(as.factor))
+ 
+ 
+ # prepare data
+ class1 =  df %>% group_by(class1, class2, class3) %>% tabyl(class1) %>% mutate(class = 1) %>% rename(category = class1)
+ class2 =  df  %>% tabyl(class2) %>% mutate(class = 2) %>% rename(category = class2)
+ class3 =  df %>% tabyl(class3) %>% mutate(class = 3) %>% rename(category = class3)
+ 
+ # link datasets by row
+ df_class = rbind(class1, class2, class3) %>% mutate(class = as.factor(class))
+ 
+ 
+ # plot
+ a = ggplot(df_class, aes(category, percent, fill = class)) + geom_bar(stat="identity")
+ a
+
+
+```
+]
+
+
+---
+## Case study
+
+* Format and structure of the data 
+
+```{r, echo = TRUE, eval = TRUE, inlcude = TRUE, warning = FALSE, message = FALSE}
+
+ library(dplyr)
+ library(ggplot2)
+ library(janitor)
+ library(rio)
+
+# format dta
+mobi = import("data/edudata.dta")
+
+glimpse(mobi)
+
+ 
+```
+
+
+---
+## Case study
+
+* Prepare the data to get a better structure for visualisation
+
+```{r, echo = TRUE, eval = TRUE, inlcude = TRUE, warning = FALSE, message = FALSE}
+# get frequencies each class
+ df = mobi %>% 
+   mutate_at(vars(class1, class2, class3), funs(as.factor))
+
+ class1 =  df  %>% tabyl(class1) %>% mutate(class = 1) %>% rename(category = class1)
+ class2 =  df  %>% tabyl(class2) %>% mutate(class = 2) %>% rename(category = class2)
+ class3 =  df %>% tabyl(class3) %>% mutate(class = 3) %>% rename(category = class3)
+ 
+ # link datasets by row
+ df_linked = rbind(class1, class2, class3) %>% mutate(class = as.factor(class))
+ 
+ glimpse(df_linked)
+
+ 
+```
+
+
+---
+## Case study
+
+* Visualise data 
+
+.pull-left[
+```{r, echo = TRUE, eval = TRUE, include = TRUE, warning = FALSE, message = FALSE}
+ # plot
+ a = ggplot(df_linked,
+    aes(category,
+        percent,
+        fill = class))+ 
+  geom_bar(stat="identity")
+
+```
+]
+
+.pull-right[
+```{r, echo = FALSE, eval = TRUE, inlcude = TRUE, warning = FALSE, message = FALSE}
+ # plot
+ a = ggplot(df_linked,
+            aes(category,
+                percent,
+                fill = class)) +
+  geom_bar(stat="identity")
+
+ a
+
+```
+]
+
+---
+class: center, middle
+# Analyse data
+## broom
+
+---
+## broom
+
+* [broom](https://cran.r-project.org/web/packages/broom/broom.pdf) creates tidy data frames derived from the results of your models
+
+* Focus on the output of the model
+
+* Great compatibility with dplyr functions
+
+| Function  | Element
+|-----------|-----------------------
+| tidy()    |  component-level statistics
+| augment() |  observation-level statistics 
+| glance()  |  model-level statistics
+
+---
+## broom
+```{r, echo = FALSE, eval = TRUE, inlcude = TRUE, warning = FALSE, message = FALSE}
+library(broom)
+
+data(mtcars)
+lmfit <- lm(mpg ~ wt+ qsec, mtcars)
+summary(lmfit)
+
+```
+
+
+---
+## broom
+
+* Get tidy results of your model
+```{r, echo = TRUE, eval = TRUE, inlcude = TRUE, warning = FALSE, message = FALSE}
+library(broom)
+
+data(mtcars)
+lmfit <- lm(mpg ~ wt+ qsec, mtcars)
+lmfit_tidy = tidy(lmfit, conf.int = TRUE)
+
+head(lmfit_tidy, 4)
+
+```
+
+---
+## broom 
+
+* Visualise results
+
+.pull-left[
+
+```{r, echo = FALSE, eval = TRUE, include = TRUE, warning = FALSE, message = FALSE}
+
+ggplot(lmfit_tidy, aes(estimate, term, color = term)) +
+  geom_point() +
+  geom_errorbarh(aes(xmin = conf.low, xmax = conf.high)) 
+
+```
+]
+
+.pull-right[
+```{r, echo = TRUE, eval = TRUE, include = TRUE, warning = FALSE, message = FALSE}
+
+g = ggplot(lmfit_tidy, aes(estimate, term, color = term)) +
+  geom_point() +
+  geom_errorbarh(aes(xmin = conf.low, xmax = conf.high)) 
+
+
+
+```
+]
+
+---
+## broom
+
+* Get information referred to the observations
+```{r, echo = TRUE, eval = TRUE, inlcude = TRUE, warning = FALSE, message = FALSE}
+library(broom)
+
+lmfit_augmented = augment(lmfit)
+
+head(lmfit_augmented, 4)
+
+```
+
+
+---
+
+class: center, middle
+
+# Thanks!
+
+[@EdudinGonzalo](https://twitter.com/EdudinGonzalo)
+
+`e.gonzalo-almorox@newcastle.ac.uk`
+
+
+

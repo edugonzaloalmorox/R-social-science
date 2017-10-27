@@ -1,0 +1,499 @@
+---
+title: "Quantitative social science with R"
+subtitle: "Introduction"
+author: "Edu Gonzalo Almorox"
+date: "18/10/2017"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+exclude: true
+
+```{r, message=FALSE, warning=FALSE, include=FALSE}
+library(tidyverse)
+```
+
+---
+
+## Outline
+
+.pull-left[1. What´s R? 
+
+1. R-Studio
+
+1. Start with R
+
+1. Data structures 
+]
+
+.pull-right[
+
+<figure><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRAH8snN7QBf8yWVwvnQ4VuW8-WMVKVq0rmxk7Uy-wuODCjEEN_"><figcaption>  <a href=""></a></figcaption></figure>
+
+
+]
+---
+
+## Introduction: R in a nutshell 
+
+- What is [R](https://www.r-project.org)?   _programming language_, _environment_, _software_...
+
+    - Open source and free 
+    
+    - Compatibility with other languages
+    
+    - Important learning curve (different packages and libraries)
+    
+
+    
+- What is [RStudio](https://www.rstudio.com)? Integrated Development Environment that makes R programming more user friendly. 
+
+
+- What can you do with R?
+
+    -  Data analysis 
+    
+    -  Dynamic documents
+    
+    -  Apps
+
+
+
+---
+
+## Is R a good investment?
+
+
+![](http://i0.wp.com/r4stats.com/wp-content/uploads/2012/04/Fig_2d_ScholarlyImpact.png)
+.center[Source: [_"The popularity of Data Analysis software"_](http://r4stats.com/articles/popularity/) Muenchen (2016)]
+
+
+---
+
+![](http://i0.wp.com/r4stats.com/wp-content/uploads/2012/04/Fig_2e_ScholarlyImpactSubset.png)
+.center[Source: [_"The popularity of Data Analysis software"_](http://r4stats.com/articles/popularity/) Muenchen (2016)]
+
+
+---
+
+![](http://i0.wp.com/datasciencepopularity.com/wp-content/uploads/2014/03/fig_1a_indeedjobs2014ge2501.png)
+.center[Source: [_"The popularity of Data Analysis software"_](http://r4stats.com/articles/popularity/) Muenchen (2016)]
+
+
+---
+
+## How do we structure a data analysis project?
+
+- Steps in a data analysis project 
+
+
+
+![](http://r4ds.had.co.nz/diagrams/data-science.png)
+
+Source: [_R for Data Science_](http://r4ds.had.co.nz) (Wickham and Grolemund (2016))
+
+---
+class: center, middle
+
+# Hello world with R
+
+
+
+---
+
+## Let´s get our head around...
+
+![](/Users/Personas/Dropbox/PhD/teaching/applied_eco_r/session-01/figures/fig_console.png)
+---
+
+## Create a project
+
+- Projects enable a better organization of the files and keeps a better control of the workflow (e.g. scripts, data, final documents, etc...) 
+
+- They improve the efficiency of the workflow. 
+
+- They make your life easier
+
+
+
+
+- `Project - New Project - New Directory -  Empty project - (select directory...)`
+ 
+
+---
+## Management of a project
+
+   ![](figures/fig_project2.png)
+
+---
+## Create a project: Control version (optional)
+
+
+- It enhances reproducibility and collaboration
+
+- Keeps record and reduces errors 
+
+- Limits software dependency
+
+-  Back up big data projects
+
+.pull-left[
+
+![](data:image/png;base64,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)
+]
+
+
+.pull-right[
+
+
+![](https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTMJH4fDnh9vqBtLL9VBHh6h8rn51fsfEycxwwn4AVSikekoffR)
+]
+
+
+
+---
+
+## Organisation of the project 
+
+- Create different folders with different types of files
+
+    - Data
+    
+    - Scripts 
+    
+    - Outputs
+
+
+
+![](figures/fig_project4.png)
+
+---
+
+class: center, middle
+
+# Data types and data structures
+---
+
+## Data types and structures 
+
+- In R every element is regarded as an object.
+
+- Most general data structures are organised according to two main elements
+
+    - Dimensionality 
+    
+    - Type of the contents (homogeneous, heterogeneous)
+    
+- In most cases, it is necessary to carry out **conversions of objects** in order to meet our needs
+
+---
+
+## Data types 
+
+| Type                  | Characteristics                                 | Example
+|---------------------  | ------------------------------------------------| ------------------
+| `character`           | single letter (or number in some cases)         | `"a"`, `"s"`,`"34"`
+| `numeric`             | single number                                   | `34`, `5`,  `9.8`
+| `logical`             | logical output                                  | `TRUE`, `FALSE`
+| `integer`             | 2 (Must add a L at end to denote integer)       | `2L`, `5L`
+|  `complex`            | complex numbers with real and imaginary parts   | `1+4i`    
+
+
+### Functions to check some features
+
+- `class()` - what kind of object is it (high-level)?
+
+- `length()` - how long is it? What about two dimensional objects?
+
+
+
+---
+
+## Data structures: Vectors
+
+This is the most basic data structure which can be of two types, atomic or list, depending on the type of data contained on it 
+
+.pull-left[
+* Atomic `vectors`
+```{r, echo = TRUE, include = TRUE}
+v = c(1,2,3,4)
+v
+```
+
+
+```{r, echo = TRUE, include = TRUE}
+z = c("Paul", "Sarah", "Joe")
+z
+```
+]
+
+.pull-right[
+
+* Examine the vectors 
+```{r, echo = TRUE, include = TRUE}
+class(v)
+```
+
+```{r, echo = TRUE, include = TRUE}
+length(z)
+```
+
+```{r, echo = TRUE, include = TRUE}
+typeof(z)
+```
+
+]
+
+---
+## Data structures: Vectors
+
+* **Add** new attributes to your vector
+
+```{r, echo = TRUE, include = TRUE}
+
+z1 = c(z, "friend1", "friend2")
+z1
+```
+
+* **Replicate** the attributes of your object
+
+```{r, echo = TRUE, include = TRUE}
+
+z2 = rep(z1, 2)
+z2
+
+z3 = rep(z1, each = 2)
+z3
+```
+
+---
+## Data structures: Matrices 
+
+These are atomic vectors that have a greater dimmension than 1. 
+
+.pull-left[
+
+```{r, echo = TRUE, include = TRUE}
+
+m<- matrix(1:6, nrow=2, ncol =3)
+m
+```
+]
+
+.pull-right[
+
+```{r, echo = TRUE, include = TRUE}
+x <- 1:3
+y <- 10:12
+
+m1  = rbind(x,y)
+m1
+
+```
+]
+
+---
+
+## Data structures: lists
+
+.pull-left[
+`lists` have various types of data...
+```{r, echo = TRUE, include = TRUE}
+
+x <- list(1, "a", TRUE)
+
+x
+
+```
+]
+
+
+.pull-right[
+
+... and various dimensions
+
+```{r, echo = TRUE, include = TRUE}
+y = list(a = "Mary",
+    b = 1:5,
+    c = c("Male", "25", TRUE))
+
+y
+```
+]
+
+
+---
+
+## Data structures: Data frames 
+
+* `Data.frames` are the most common data structure for gathering information. 
+
+    - **Variables**: Collect different arguments associated with the information to be analysed
+    
+    - **Observations**: Units of analysis (individuals, firms, etc...)
+     
+* The structure of a `data.frame` consists of columns that contain labelled variables and rows that contain observations.
+
+---
+
+## Example of a messy dataset
+
+![](figures/fig_messy.png)
+
+---
+
+## Example of a messy dataset
+
+![](figures/fig_messy1.png)
+
+---
+## Tidy(er) data frame
+ 
+```{r, echo = FALSE, include = TRUE}
+
+df = data.frame(Name = c("Mary", "John", "Tony"),
+    AGE = c(12, 25, 20),
+    GenDER = c("0", "1", "1"), 
+    Region = c("North East", "North East", "East Midlands"), 
+    `ID code`  = c("A-00345", "A-1243009", "A-0012456"),
+    `Treated?` = c("yes", "no", "yes"))
+
+
+df
+
+```
+
+* Can we make it cleaner? 
+
+```{r, echo = TRUE, include = TRUE}
+
+library(janitor)
+
+
+df_clean = clean_names(df)
+
+df_clean
+
+```
+
+
+---
+## Explore the data frame
+
+
+- Look at the first and last rows
+
+```{r, echo = TRUE, include = TRUE}
+
+head(df_clean,1)
+
+```
+
+```{r, echo = TRUE, include = TRUE}
+
+tail(df_clean,2)
+
+```
+
+---
+## Explore the data frame
+
+- Have a complete vision of the `data.frame`
+
+```{r, echo = TRUE, include = TRUE, message = FALSE, warning = FALSE}
+
+library(dplyr)
+glimpse(df_clean)
+
+```
+
+---
+## Tibbles
+
+[Tibbles](https://cran.r-project.org/web/packages/tibble/vignettes/tibble.html) are a new form of expressing data frames. 
+
+  - Are more efficient 
+    
+  - Printing: They print first ten rows and all the columns that fit on one screen - good when dealing with big data frames
+    
+  - Easier subsetting 
+  
+```{r, echo = TRUE, include = TRUE, message = FALSE, warning = FALSE}
+
+as_tibble(df)
+
+```
+
+---
+## Exercise 
+
+How can your create a data.frame with the individuals in `z` and three more friends who are followed during 5 periods of time?
+
+```{r, echo = FALSE, include = TRUE, message = FALSE, warning = FALSE}
+
+id = rep(c(z, "Beth", "Mike", "Martha"), each = 5)
+
+time = rep(1:5, 6)
+
+
+friends = data.frame(id, time)
+
+head(friends)
+
+```
+
+---
+.pull-left[
+- One way with `data.frame()`
+```{r, echo = TRUE, include = TRUE, message = FALSE, warning = FALSE}
+
+id = rep(c(z, "Beth",
+           "Mike",
+           "Martha"), each = 5)
+
+time = rep(1:5, 6)
+
+
+friends = data.frame(id, time)
+
+head(friends)
+
+```
+]
+
+.pull-right[
+- Another way with `cbind()`
+```{r, echo = TRUE, include = TRUE, message = FALSE, warning = FALSE}
+
+id = rep(c(z, "Beth",
+           "Mike",
+           "Martha"), each = 5)
+
+time = rep(1:5, 6)
+
+
+friends = cbind(id, time)
+
+
+head(friends)
+
+# Data frame 
+
+friends = as.data.frame(friends)
+head(friends, 2)
+```
+]
+---
+class: center, middle
+
+# Thanks!
+
+ [@EdudinGonzalo](https://twitter.com/EdudinGonzalo)
+
+`e.gonzalo-almorox@newcastle.ac.uk`
+

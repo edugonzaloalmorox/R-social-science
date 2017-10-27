@@ -1,0 +1,934 @@
+---
+title: "Quantitative social science with R"
+subtitle: "Get and manipulate data"
+author: "Edu Gonzalo Almorox"
+date: "18/10/2017"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+exclude: true
+
+```{r, message=FALSE, warning=FALSE, include=FALSE}
+library(tidyverse)
+```
+
+---
+
+# Outline
+
+.pull-left[1. Import data
+
+      - .csv
+      
+      - .excel
+      
+2. Types of data
+
+      - factors
+      
+      - strings
+      
+      - dates
+
+3. Manipulate data
+
+      - dplyr
+      
+      - tidyr
+      
+]
+
+.pull-right[
+
+<figure><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTW-RXsNKw8mOlCLUu54hp1hMyo6dPIlXD4XiYiAjxBUSamo0y_"><figcaption> <a href=""></a></figcaption></figure>
+
+]
+---
+class: center, middle
+
+# Import data into R
+---
+## Getting data 
+
+-  There are two possible ways to input information: 
+
+     - **Manually**
+     
+     - **Import from somewhere**
+
+- The majority of the analyses consist of data created externally 
+
+    - Data are delivered in different **formats**
+    
+    - Important to understand how information is **structured**
+    
+    
+---
+## Step 1: Get started
+
+The first commands consist of the following instructions intended to locate the project in the computer and load the set of functions needed for the analysis 
+
+* Working directory
+```{r, echo = TRUE, eval = FALSE}
+
+# working directory
+setwd("/Users/my-file/my_document") 
+```
+
+* Packages
+```{r, echo = TRUE, eval = FALSE}
+install.packages() # for installing packages 
+```
+
+* Library
+```{r, echo = TRUE, eval = FALSE}
+library() # for loading libraries
+```
+
+
+---
+## Step 2: Load your data 
+
+* Various packages and libraries that allow for this 
+
+* Use depends on the type of data to be loaded
+
+| Function     | Package    | Format
+|---------------|-----------| ------------------------
+| `read.csv()`  | `base`    | Comma separated values
+| `read.dta()`  | [`foreign`](https://cran.r-project.org/web/packages/foreign/foreign.pdf) | Stata files
+| `import()`    |  [`rio`](https://cran.r-project.org/web/packages/rio/rio.pdf)   | All types
+| `read_csv()`  |  [`readr`](https://cran.r-project.org/web/packages/readr/readr.pdf)  | Comma separated values
+| `read_xlsx()` |  [`readr`](https://cran.r-project.org/web/packages/readr/readr.pdf)  | Excel type
+| `read_excel()`| [`readxl`](https://cran.r-project.org/web/packages/readxl/readxl.pdf)  | Excel files
+| `read_xml()`  | [`xml2`](https://cran.r-project.org/web/packages/xml2/xml2.pdf)        | XML files
+
+
+---
+## Load data: csv files
+
+* Comma separated files (`csv`) are quite common
+
+* Values are separated by commas
+
+* Base solution 
+
+```{r, echo = TRUE, eval = TRUE, inlcude = TRUE, warning = FALSE, message = FALSE}
+
+# load data including working directory
+my_df = read.csv("data/data_intro_r.csv",
+                 sep = ",")
+
+head(my_df)
+
+```
+---
+## Load data: csv files
+
+* There are other functions: `import()`...
+
+```{r, echo = TRUE, eval = TRUE, inlcude = TRUE, warning = FALSE, message = FALSE}
+
+# load data including working directory
+library(rio)
+my_df_import = import("data/data_intro_r.csv")
+
+head(my_df_import, 3)
+
+```
+---
+## Load data: csv files
+
+* ... and `read_csv()`
+
+```{r, echo = TRUE, eval = TRUE, inlcude = TRUE, warning = FALSE, message = FALSE}
+
+# load data including working directory
+
+library(readr)
+my_df_readr = read_csv("data/data_intro_r.csv")
+
+head(my_df_readr)
+
+```
+
+* Faster
+
+* More flexible to read different types of variable (e.g. dates, times, currencies...)
+
+---
+## Load data: excel files
+
+* Excel files have been tedious to parse in R 
+
+* `readxl` works very well for this
+
+
+```{r, echo = TRUE, eval = TRUE, inlcude = TRUE, warning = FALSE, message = FALSE}
+
+# load data including working directory
+
+library(readxl)
+my_excel = read_excel("data/r_intro.xlsx")
+
+
+head(my_excel, 5)
+
+```
+
+---
+## Load data: excel files
+
+* Refine the information that can be loaded controlling for sheets, rows and columns
+
+      - **sheet names**
+```{r, echo = TRUE, eval = TRUE, include = TRUE, warning = FALSE, message = FALSE}
+
+# name of the sheet 
+library(readxl)
+my_excel = read_excel("data/r_intro.xlsx", sheet = "thisisaverylongnameforasheet")
+
+head(my_excel, 3)
+```
+ 
+---
+## Load data: excel files
+* Refine the information that can be loaded controlling for sheets, rows and columns
+
+      - **sheet position**
+```{r, echo = TRUE, eval = TRUE, include = TRUE, warning = FALSE, message = FALSE}
+
+# name of the sheet 
+library(readxl)
+my_excel = read_excel("data/r_intro.xlsx", sheet = 1)
+
+head(my_excel, 2)
+```
+
+---
+## Load data: excel files
+* Refine the information that can be loaded controlling for sheets, rows and columns
+  
+      - **rows**
+```{r, echo = TRUE, eval = TRUE, include = TRUE, warning = FALSE, message = FALSE}
+
+# rows
+library(readxl)
+my_excel_clean = read_excel("data/r_intro.xlsx", sheet = 1, cell_rows(10:15))
+
+head(my_excel_clean, 3)
+
+```
+
+---
+
+## Load data: excel files
+* Refine the information that can be loaded controlling for sheets, rows and columns
+      
+      - **columns**
+```{r, echo = TRUE, eval = TRUE, include = TRUE, warning = FALSE, message = FALSE}
+library(readxl)
+
+# columns
+
+my_excel_clean_cols = read_excel("data/r_intro.xlsx", sheet = 1, cell_cols("C:L"))
+
+head(my_excel_clean_cols, 3)
+
+```
+
+---
+## Load data: excel files
+* Refine the information that can be loaded controlling for sheets, rows and columns
+   
+    - **range**
+    
+```{r, echo = TRUE, eval = TRUE, include = TRUE, warning = FALSE, message = FALSE}
+library(readxl)
+
+# range
+my_excel_clean_range = read_excel("data/r_intro.xlsx", sheet = 1, range = "A11:M337")
+
+head(my_excel_clean_range, 3)
+
+```
+
+---
+## Exercise
+
+Load information corresponding to 2015
+
+```{r, echo = FALSE, eval = TRUE, include = TRUE, warning = FALSE, message = FALSE}
+
+# range 
+
+my_excel_2011= read_excel("data/r_intro.xlsx", sheet = 1, range = c("E11:H327"))
+
+head(my_excel_2011)
+
+
+```
+
+
+---
+class: center, middle
+# Types of data 
+### factors
+---
+## Data types: factors 
+
+* [Factors](http://r4ds.had.co.nz/factors.html) refer to variables that represent different categories: gender, labour status, being treated or not, etc...
+
+* What do we mean by categories? 
+
+      - fixed and known set of possible values
+        
+      - order in some cases 
+         
+![](figures/fig_factor.png)       
+
+         
+---
+
+## Data types: factors 
+
+
+```{r, echo = FALSE, eval = TRUE, inlcude = TRUE, warning = FALSE, message = FALSE}
+
+# what is a factor here?
+
+library(readr)
+my_data = read_csv("data/data_intro_r.csv")
+
+my_data  = as.data.frame(my_data)
+
+head(my_data, 7)
+
+```
+
+---
+## Data types: factors 
+
+
+
+```{r, echo = TRUE, eval = TRUE, inlcude = TRUE, warning = FALSE, message = FALSE}
+
+glimpse(my_data)
+
+```
+
+---
+
+## Data types: factors 
+
+* How can we transform `characters` into `factors`?
+
+* Base solution: combination of `$` and `as.factor()`
+
+```{r, echo = TRUE, eval = TRUE, inlcude = TRUE, warning = FALSE, message = FALSE}
+
+my_data$location.id = as.factor(my_data$location.id)
+
+glimpse(my_data)
+
+```
+
+
+* We will see other alternatives further on 
+
+---
+## Data types: factors 
+
+* The categories of the factor can be retrieve with `levels()` 
+
+*  *What are the regions of the locations?*
+
+```{r, echo = TRUE, eval = TRUE, inlcude = TRUE, warning = FALSE, message = FALSE}
+
+# transform into a factor
+my_data$location.region = as.factor(my_data$location.region)
+
+# get level
+levels(my_data$location.region)
+
+
+```
+
+---
+## Data types: factors
+
+* Levels can be renamed 
+
+* *Define "Unspecified" as "no_name"*
+
+```{r, echo = TRUE, eval = TRUE, inlcude = TRUE, warning = FALSE, message = FALSE}
+
+library(forcats) 
+
+# transform into a factor
+my_data$location.region = as.factor(my_data$location.region)
+
+# get region levels
+regions = levels(my_data$location.region)
+
+fct_recode(regions, no_name = "Unspecified")
+
+
+```
+
+
+---
+## Data types: factors
+
+* Levels can be summarised
+
+* *How many observations do we have in each region?*
+
+```{r, echo = TRUE, eval = TRUE, inlcude = TRUE, warning = FALSE, message = FALSE}
+
+table(my_data$location.region)
+
+
+```
+
+---
+## Exercise
+
+Create a variable called `regions.recoded` where "Unspecified" regions are recoded as "No Name"
+
+
+```{r, echo = FALSE, eval = TRUE, inlcude = TRUE, warning = FALSE, message = FALSE}
+
+library(forcats) 
+
+# transform into a factor
+my_data$regions.recoded = fct_recode(my_data$location.region, `No name` = "Unspecified")
+
+head(my_data)
+
+table(my_data$regions.recoded)
+
+```
+ 
+ 
+---
+class: center, middle
+# Types of data 
+### strings
+
+
+---
+
+## Data types: strings
+
+* Text can be analysed as data
+
+* Text data are becoming more frequent: tweets, reviews, news...
+
+* Text may appear in your data
+      - remove a given character in the names of your variables
+            
+      - replace a given character in your data
+            
+      - extact a given character in your data
+
+
+---
+## Data types: strings
+
+* Strings can be manipulated in multiple ways
+
+* [stringr](https://cran.r-project.org/web/packages/stringr/stringr.pdf) package is a complete tool
+
+
+|Function      | Description
+|------------- | -------------------
+|str_c()       | string concatenation
+|str_length()  | number of characters
+|str_sub()     | extracts substrings
+|str_dup()     | duplicates characters
+|str_trim()    | removes leading and trailing whitespace pads a string
+
+Source: [_"Handling and Processing Strings in R"_](http://www.gastonsanchez.com/Handling_and_Processing_Strings_in_R.pdf) (Sánchez, 2014)
+
+---
+## Data types: strings
+
+* Create a new variable that includes a particular string to a variable - for example `"region_"`
+
+* Make it lower case
+
+```{r, echo = TRUE, eval = TRUE, include = TRUE, warning = FALSE, message = FALSE}
+
+library(stringr)
+
+# transform and add the string
+
+my_data$new_region = str_c("region", my_data$location.region, sep = "_")
+
+# make it lower
+
+my_data$new_region = tolower(my_data$new_region)
+
+head(my_data$new_region)
+
+```
+
+---
+## Data types: strings 
+
+```{r, echo = TRUE, eval = TRUE, include = TRUE, warning = FALSE, message = FALSE}
+
+glimpse(my_data)
+
+```
+---
+
+## Data types: strings
+
+* Extract `region_`  from the variable `new_region` 
+
+```{r, echo = TRUE, eval = TRUE, include = TRUE, warning = FALSE, message = FALSE}
+
+library(stringr)
+
+my_data$new_region2 = str_sub(my_data$new_region, 1, 7)
+
+head(my_data$new_region2, 10)
+```
+
+
+* Drop `"_"` from `new_region` variable
+
+
+```{r, echo = TRUE, eval = TRUE, include = TRUE, warning = FALSE, message = FALSE}
+
+library(stringr)
+
+my_data$new_region2 = gsub("_", " ", my_data$new_region)
+
+head(my_data$new_region2)
+
+
+```
+
+---
+## Data types: strings 
+
+* Identify those observations whose region contains the word `East`
+
+```{r, echo = TRUE, eval = TRUE, include = TRUE, warning = FALSE, message = FALSE}
+
+my_data$region.east = str_detect(my_data$location.region, "East")
+
+table(my_data$region.east)
+```
+
+* Extract `East` from the names of the regions
+
+```{r, echo = TRUE, eval = TRUE, include = TRUE, warning = FALSE, message = FALSE}
+
+my_data$region.east2 = as.factor(str_extract(my_data$location.region, "East"))
+
+summary(my_data$region.east2)
+```
+
+---
+
+class: center, middle
+
+# Types of data
+## dates and times
+
+---
+## Data types: dates and times
+
+* Dates can be considered differently depending on various issues
+
+      - is there information on time? *"2002-06-09 12:45:40"*
+      
+      - does it have time zones? (POSIXct and POSIXlt classes)
+      
+```{r, echo = TRUE, eval = TRUE, include = TRUE, warning = FALSE, message = FALSE}
+
+dates <- c("02/27/92", "02/27/92", "01/14/92", "02/28/92", "02/01/92")
+times <- c("23:03:20", "22:29:56", "01:03:30", "18:21:03", "16:56:26")
+x <- data.frame(dates, times, dates_times = paste(dates, times))
+
+
+```
+
+
+* [`lubridate`](https://cran.r-project.org/web/packages/lubridate/lubridate.pdf) allows for great flexibility when dealing with both types of data.
+---
+
+## Data types: dates
+
+* Transform to date format: `mdy_hms()`
+
+```{r, echo = TRUE, eval = TRUE, include = TRUE, warning = FALSE, message = FALSE}
+library(lubridate)
+str(x)
+
+# transform to "date format" 
+
+x$new_datetime = mdy_hms(x$dates_times)
+str(x)
+```
+---
+## Data types: dates
+* Extract relevant information - e.g: _hours_, _day of the week_ 
+
+```{r, echo = TRUE, eval = TRUE, include = TRUE, warning = FALSE, message = FALSE}
+library(lubridate)
+
+# hours
+x$hour = hour(x$new_datetime)
+
+
+# week-day to "date format" 
+x$weekday = wday(x$new_datetime, label = TRUE)
+
+x
+
+```
+
+
+---
+## Data types: dates
+
+* Arithmetic operations 
+
+      - what´s the average date and time?
+      
+      - what are the max and min date and time?
+
+```{r, echo = TRUE, eval = TRUE, include = TRUE, warning = FALSE, message = FALSE}
+library(lubridate)
+
+summary(x$new_datetime) 
+
+```
+---
+class: center, middle
+# Manipulation of data  
+## dplyr and tidyr
+
+---
+## Data manipulation: dplyr
+
+* [`dplyr`](https://cran.r-project.org/web/packages/dplyr/dplyr.pdf) is the backbone of the grammar for data manipulation
+
+* Compatibility with the pipes: [`%>%`](http://r4ds.had.co.nz/pipes.html)
+
+*  Main functions associated with different tasks 
+
+|Function   | Description
+| ----------|-----------------------
+|mutate()   |adds new variables that are functions of existing variables
+|select()   |picks variables based on their names.
+|filter()   |picks cases based on their values.
+|summarise()| reduces multiple values down to a single summary.
+|arrange()  |changes the ordering of the rows.
+[Source: tidyverse](http://dplyr.tidyverse.org/reference/index.html)
+
+---
+
+##Data manipulation: dplyr
+
+* Working example
+
+    - create a variable that reflects the level of female unemployment in the region of the location. Less than 30 claimants is below the average,
+30-35 is in the average and more than 35 is above the average. 
+
+```{r, echo = TRUE, eval = TRUE, include = TRUE, warning = FALSE, message = FALSE}
+
+library(rio)
+library(dplyr)
+        
+my_data = import("data/data_intro_r.csv")
+
+my_data = my_data %>% mutate(unemp_level = ifelse(jsa.fem < 30, "below", 
+                                  ifelse(jsa.fem >= 30 & jsa.fem < 35, "medium",
+                                  ifelse(jsa.fem >=35, "high", "other"))))
+
+head(my_data,4)
+```
+
+---
+
+##Data manipulation: dplyr
+
+* Select locations in the South East and South West and order by date.
+
+```{r, echo = TRUE, eval = TRUE, include = TRUE, warning = FALSE, message = FALSE}
+
+library(dplyr)
+        
+regions_south = c("South East", "South West")
+
+my_data_south = my_data %>%
+  filter(location.region %in% regions_south) %>%
+  arrange(date)
+
+head(my_data_south,7)
+```
+
+---
+
+##Data manipulation: dplyr
+
+* What´s the average, max and min number of claimants in each region? 
+
+```{r, echo = TRUE, eval = TRUE, include = TRUE, warning = FALSE, message = FALSE}
+
+sum_jsa = my_data %>%
+  group_by(location.region) %>%
+  summarise(mean.jsa = mean(jsa.fem),
+            min.jsa = min(jsa.fem),
+            max.jsa = max(jsa.fem)) 
+
+sum_jsa
+```
+
+---
+##Data manipulation: dplyr
+
+```{r, echo = TRUE, eval = TRUE, include = TRUE, warning = FALSE, message = FALSE}
+
+sum_jsa = my_data %>%
+  group_by(location.region) %>%
+  summarise(mean.jsa = mean(jsa.fem),
+            min.jsa = min(jsa.fem),
+            max.jsa = max(jsa.fem)) %>%
+  filter(location.region != "Unspecified")
+
+sum_jsa
+```
+
+---
+## Data manipulation: dplyr
+
+* Change the types of variables 
+
+```{r, echo = TRUE, eval = TRUE, include = TRUE, warning = FALSE, message = FALSE}
+
+glimpse(my_data)
+
+```
+
+* `location.region` and `unemp_level` are represent categories. `date` represents dates. 
+
+
+```{r, echo = TRUE, eval = TRUE, include = TRUE, warning = FALSE, message = FALSE}
+
+my_data =  my_data %>%  
+  mutate_at(vars(location.region, unemp_level), funs(as.factor)) %>%
+  mutate_at(vars(date), funs(as.Date))
+
+```
+
+---
+## Data manipulation: dplyr
+
+```{r, echo = TRUE, eval = TRUE, include = TRUE, warning = FALSE, message = FALSE}
+
+glimpse(my_data)
+
+```
+
+---
+## Data manipulation: dplyr
+
+* `dplyr` has functions for linking datasets
+
+| Function          | Description
+|----------------   | ------------
+| inner(join)       | return all rows from x where there are matching values in y, and all columns from x and y
+| left_join()       | return all rows from x, and all columns from x and y
+| right_join()      | return all rows from y, and all columns from x and y
+| semi_join()       | return all rows from x where there are matching values in y, keeping just columns from x
+| anti_join()       | return all rows from x where there are not matching values in y, keeping just columns from x
+| full_join()       | return all rows and all columns from both x and y
+ 
+---
+## Data manipulation: dplyr
+
+* Linking two datasets 
+
+```{r, echo = TRUE, eval = TRUE, include = TRUE, warning = FALSE, message = FALSE}
+
+library(dplyr)
+library(rio)
+
+d1  = import("data/pop_link.csv")
+
+d2 = import("data/claim_link.csv")
+
+
+```
+
+---
+## Data manipulation: dplyr
+
+```{r, echo = TRUE, eval = TRUE, include = TRUE, warning = FALSE, message = FALSE}
+
+glimpse(d1)
+
+```
+
+
+
+```{r, echo = TRUE, eval = TRUE, include = TRUE, warning = FALSE, message = FALSE}
+
+glimpse(d2)
+
+```
+
+---
+## Data manipulation: dplyr
+
+* Add information from `d2` to `d1`
+
+```{r, echo = TRUE, eval = TRUE, include = TRUE, warning = FALSE, message = FALSE}
+
+new_data = left_join(d1, d2, by = c("Local Authority"))
+
+glimpse(new_data)
+
+```
+
+---
+## Data manipulation: dplyr
+
+* Add information from `d2` to `d1`
+
+```{r, echo = TRUE, eval = TRUE, include = TRUE, warning = FALSE, message = FALSE}
+
+new_data = left_join(d1, d2,
+                     by = c("Local Authority" = "Local Authority", 
+                                    "oslaua" = "code_la"))
+
+glimpse(new_data)
+
+```
+
+---
+## Data manipulation: tidyr
+
+* [Tidyr](https://cran.r-project.org/web/packages/tidyr/tidyr.pdf) is helpful for creating [tidy datasets](http://vita.had.co.nz/papers/tidy-data.pdf)
+
+        - each variable is in a column 
+        
+        - each observation is in a row
+        
+        - each value in a cell.
+
+* Useful for reshaping data from wide to long formats and also for visualisations
+
+        - gather(): it makes “wide” data longer
+        
+        - spread(): it makes “long” data wider
+        
+---
+## Data manipulation: tidyr
+
+* Working example
+
+    - transform a wide data frame into a long
+    
+```{r, echo = TRUE, eval = TRUE, include = TRUE, warning = FALSE, message = FALSE}
+
+library(rio)
+library(tidyr)
+library(dplyr)
+
+d1  = import("data/pop_link.csv")
+
+head(d1)
+
+```    
+
+---
+## Data manipulation: tidyr
+
+```{r, echo = TRUE, eval = TRUE, include = TRUE, warning = FALSE, message = FALSE}
+
+d1 %>% gather(age, number, `All Ages`: `Aged 85+`)
+
+
+```
+
+---
+## Data manipulation: tidyr
+
+* `tidyr` and `dplyr`
+ 
+```{r, echo = TRUE, eval = TRUE, include = TRUE, warning = FALSE, message = FALSE}
+
+ d1 %>% gather(age, number, `All Ages`: `Aged 85+`) %>%
+  arrange(`Local Authority`)
+
+
+
+```
+
+---
+## Exercise
+
+* Create a data frame that contains information on the district regarding the number of inhabitants associated with each age range and the information corresponding to each year
+
+```{r, echo = FALSE, eval = TRUE, include = TRUE, warning = FALSE, message = FALSE}
+
+new_df_long = new_data %>% 
+  select(oslaua, `2014`:`2017`) %>% 
+  gather(year, claimants, `2014`:`2017`)
+
+d1_long = d1 %>% gather(age, number, `All Ages`: `Aged 85+`) %>%
+  arrange(`Local Authority`)
+
+exercise = left_join(d1_long, new_df_long, by = "oslaua")
+
+head(exercise)
+
+
+
+```
+
+---
+## Exercise
+
+```{r, echo = TRUE, eval = TRUE, include = TRUE, warning = FALSE, message = FALSE}
+
+new_df_long = new_data %>% 
+  select(oslaua, `2014`:`2017`) %>% 
+  gather(year, claimants, `2014`:`2017`)
+
+d1_long = d1 %>% gather(age, number, `All Ages`: `Aged 85+`) %>%
+  arrange(`Local Authority`)
+
+exercise = left_join(d1_long, new_df_long, by = "oslaua")
+
+head(exercise)
+
+
+```
+
+
+---
+
+
+class: center, middle
+
+# Thanks!
+
+[@EdudinGonzalo](https://twitter.com/EdudinGonzalo)
+
+`e.gonzalo-almorox@newcastle.ac.uk`
+
