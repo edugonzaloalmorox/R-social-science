@@ -30,3 +30,5 @@ Materials for workshop on R for quantitative social science. The repository is c
 -  [Slides](https://github.com/edugonzaloalmorox/R-social-science/blob/master/s3.Rmd)
 -  [Example data: "edudata.dta"](https://github.com/edugonzaloalmorox/R-social-science/blob/master/data/edudata.dta)
 -  [R script](https://github.com/edugonzaloalmorox/R-social-science/blob/master/code/s3.R)
+
+This work is licensed under a [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License](https://creativecommons.org/licenses/by-nc-sa/4.0/).
