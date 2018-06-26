@@ -15,6 +15,7 @@ Materials for workshop on R for quantitative social science. The repository is c
 
 -  [Slides](https://github.com/edugonzaloalmorox/R-social-science/blob/master/s1.Rmd)
 -  [R script](https://github.com/edugonzaloalmorox/R-social-science/blob/master/code/s1.R)
+-  [Quantitative social data science with R](https://github.com/edugonzaloalmorox/R-social-science/blob/master/Quantitative%20social%20science%20with%20R.pdf)
 
 ### Session 2: Get and manipulate data
 
@@ -24,11 +25,13 @@ Materials for workshop on R for quantitative social science. The repository is c
 -  [Example data: "pop_link.csv"](https://github.com/edugonzaloalmorox/R-social-science/blob/master/data/pop_link.csv)
 -  [Example data: "claim_link.csv"](https://github.com/edugonzaloalmorox/R-social-science/blob/master/data/claim_link.csv)
 -  [R script](https://github.com/edugonzaloalmorox/R-social-science/blob/master/code/s2.R)
+-  [Load and manipulate data](https://github.com/edugonzaloalmorox/R-social-science/blob/master/Load%20and%20manipulate%20data.pdf)
 
 ### Session 3: Plot data
 
 -  [Slides](https://github.com/edugonzaloalmorox/R-social-science/blob/master/s3.Rmd)
 -  [Example data: "edudata.dta"](https://github.com/edugonzaloalmorox/R-social-science/blob/master/data/edudata.dta)
 -  [R script](https://github.com/edugonzaloalmorox/R-social-science/blob/master/code/s3.R)
+-  [Visualise and analyse data](https://github.com/edugonzaloalmorox/R-social-science/blob/master/Visualise%20and%20analyse%20data.pdf)
 
 This work is licensed under a [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License](https://creativecommons.org/licenses/by-nc-sa/4.0/).
