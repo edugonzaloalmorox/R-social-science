@@ -1,6 +1,8 @@
 # R-social-science
 
-Materials for workshop on R for quantitative social science. The repository is composed by the following folders.
+Materials for workshop on R for quantitative social science. Te get the materials clone this repository locally in your machine and open the R project.
+
+The repository is composed by the following folders.
 
 - `code`: R code used in each session. 
 - `data`: Datasets for conducting the exercises
