@@ -1,0 +1,25 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1572693970889.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2339699233",
+    "id" : "BB842F0E",
+    "lastKnownWriteTime" : 1572696772,
+    "last_content_update" : 1572696772384,
+    "path" : "~/Dropbox/side_projects/github/R-social-science/s3.Rmd",
+    "project_path" : "s3.Rmd",
+    "properties" : {
+        "cursorPosition" : "4,1",
+        "scrollLine" : "0"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 3,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}
