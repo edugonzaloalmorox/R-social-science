@@ -1,6 +1,6 @@
 # R-social-science
 
-Materials for workshop on R for quantitative social science. The repository is composed by the following folders.
+Materials for workshop on R for quantitative social science. To get the materials clone this repository locally in your machine and open the R project (`.Rproj.user`)
 
 - `code`: R code used in each session. 
 - `data`: Datasets for conducting the exercises
@@ -13,25 +13,25 @@ Materials for workshop on R for quantitative social science. The repository is c
 
 ### Session 1: Introduction to R
 
--  [Slides](https://github.com/edugonzaloalmorox/R-social-science/blob/master/s1.html)
+-  [Slides](https://edugonzaloalmorox.github.io/slides1/#1)
 -  [R script](https://github.com/edugonzaloalmorox/R-social-science/blob/master/code/s1.R)
--  [Quantitative social data science with R](https://github.com/edugonzaloalmorox/R-social-science/blob/master/Quantitative%20social%20science%20with%20R.pdf)
+
 
 ### Session 2: Get and manipulate data
 
--  [Slides](https://github.com/edugonzaloalmorox/R-social-science/blob/master/s2.html)
+-  [Slides](https://edugonzaloalmorox.github.io/slides2/#1)
 -  [Example data: "data_intro_r.csv"](https://github.com/edugonzaloalmorox/R-social-science/blob/master/data/data_intro_r.csv)
 -  [Example data: "r_intro_xlsx"](https://github.com/edugonzaloalmorox/R-social-science/blob/master/data/r_intro.xlsx)
 -  [Example data: "pop_link.csv"](https://github.com/edugonzaloalmorox/R-social-science/blob/master/data/pop_link.csv)
 -  [Example data: "claim_link.csv"](https://github.com/edugonzaloalmorox/R-social-science/blob/master/data/claim_link.csv)
 -  [R script](https://github.com/edugonzaloalmorox/R-social-science/blob/master/code/s2.R)
--  [Load and manipulate data](https://github.com/edugonzaloalmorox/R-social-science/blob/master/Load%20and%20manipulate%20data.pdf)
+
 
 ### Session 3: Plot data
 
--  [Slides](https://github.com/edugonzaloalmorox/R-social-science/blob/master/s3.html)
+-  [Slides](https://edugonzaloalmorox.github.io/slides3/#1)
 -  [Example data: "edudata.dta"](https://github.com/edugonzaloalmorox/R-social-science/blob/master/data/edudata.dta)
 -  [R script](https://github.com/edugonzaloalmorox/R-social-science/blob/master/code/s3.R)
--  [Visualise and analyse data](https://github.com/edugonzaloalmorox/R-social-science/blob/master/Visualise%20and%20analyse%20data.pdf)
+
 
 This work is licensed under a [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License](https://creativecommons.org/licenses/by-nc-sa/4.0/).
