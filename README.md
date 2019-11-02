@@ -13,13 +13,13 @@ Materials for workshop on R for quantitative social science. The repository is c
 
 ### Session 1: Introduction to R
 
--  [Slides](https://github.com/edugonzaloalmorox/R-social-science/blob/master/s1.Rmd)
+-  [Slides](https://github.com/edugonzaloalmorox/R-social-science/blob/master/s1.html)
 -  [R script](https://github.com/edugonzaloalmorox/R-social-science/blob/master/code/s1.R)
 -  [Quantitative social data science with R](https://github.com/edugonzaloalmorox/R-social-science/blob/master/Quantitative%20social%20science%20with%20R.pdf)
 
 ### Session 2: Get and manipulate data
 
--  [Slides](https://github.com/edugonzaloalmorox/R-social-science/blob/master/s2.Rmd)
+-  [Slides](https://github.com/edugonzaloalmorox/R-social-science/blob/master/s2.html)
 -  [Example data: "data_intro_r.csv"](https://github.com/edugonzaloalmorox/R-social-science/blob/master/data/data_intro_r.csv)
 -  [Example data: "r_intro_xlsx"](https://github.com/edugonzaloalmorox/R-social-science/blob/master/data/r_intro.xlsx)
 -  [Example data: "pop_link.csv"](https://github.com/edugonzaloalmorox/R-social-science/blob/master/data/pop_link.csv)
@@ -29,7 +29,7 @@ Materials for workshop on R for quantitative social science. The repository is c
 
 ### Session 3: Plot data
 
--  [Slides](https://github.com/edugonzaloalmorox/R-social-science/blob/master/s3.Rmd)
+-  [Slides](https://github.com/edugonzaloalmorox/R-social-science/blob/master/s3.html)
 -  [Example data: "edudata.dta"](https://github.com/edugonzaloalmorox/R-social-science/blob/master/data/edudata.dta)
 -  [R script](https://github.com/edugonzaloalmorox/R-social-science/blob/master/code/s3.R)
 -  [Visualise and analyse data](https://github.com/edugonzaloalmorox/R-social-science/blob/master/Visualise%20and%20analyse%20data.pdf)
