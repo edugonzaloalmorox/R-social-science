@@ -1,8 +1,11 @@
 # R-social-science
 
 Materials for workshop on R for quantitative social science. To get the materials clone this repository locally in your machine and open the R project (`.Rproj.user`)
+master
+
 
 The repository is composed by the following folders.
+gh-pages
 
 - `code`: R code used in each session. 
 - `data`: Datasets for conducting the exercises
